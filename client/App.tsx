@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
-  // useEffect(() => {
-  //   fetch("http://localhost:4000/api/ping")
-  // }, [])
+  useEffect(() => {
+    fetch("http://localhost:4000/api/ping").then(res => console.log(res))
+  }, [])
   return (
     <View style={styles.container}>
       <Text>Open up App.tsx to start working on your app!</Text>
