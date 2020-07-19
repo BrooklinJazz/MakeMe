@@ -2,7 +2,9 @@ use Mix.Config
 
 # Configure your database
 config :server, Server.Repo,
-  username: "brooklinmyers",
+  # make a .env file with the username of your computer
+  # type "whoami" in your terminal to get this value
+  username: System.get_env("DB_USERNAME"),
   password: "",
   database: "server_dev",
   hostname: "localhost",
