@@ -1,7 +1,13 @@
+# Cient
+
+To start your client:
+  * make sure you cd into the client folder
+  * run yarn web, yarn android, or yarn ios
+
 # Server
 
 To start your Phoenix server:
-
+  * make sure you cd into the server folder
   * Setup the project with `mix setup`
   * Start Phoenix endpoint with `mix phx.server`
 
