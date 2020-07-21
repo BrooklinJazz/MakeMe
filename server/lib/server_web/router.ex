@@ -8,7 +8,8 @@ defmodule ServerWeb.Router do
 
   scope "/api", ServerWeb do
     pipe_through :api
-    get "/ping", ActivitiesController, :ping
+    get "/activities/find_random", ActivitiesController, :find_random
+    get "/activities/find_another", ActivitiesController, :find_another
   end
 
   # Enables LiveDashboard only for development
