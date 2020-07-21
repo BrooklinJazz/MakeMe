@@ -13,7 +13,7 @@ To start your Phoenix server:
   * create a .env file under server and place the following into the file.
   make sure to replace YOUR_DB_USERNAME with the result of running whoami in your terminal
   keep the quotations "" so if you run whoami and get patrickstar you should put in "patrickstar"
-
+  * run source .env
   ```
   export const DB_USERNAME="YOUR_DB_USERNAME"
   ```
