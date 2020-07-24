@@ -10,6 +10,7 @@ defmodule ServerWeb.Router do
     pipe_through :api
     get "/activities/find_random", ActivitiesController, :find_random
     get "/activities/find_another", ActivitiesController, :find_another
+    resources "/tasks", TaskController, except: [:new, :edit]
   end
 
   # Enables LiveDashboard only for development
