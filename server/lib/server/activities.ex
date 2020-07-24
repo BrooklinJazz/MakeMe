@@ -104,8 +104,13 @@ defmodule Server.Activities do
   end
 
   def find_random_task() do
-    # NOTE may be able to use Repo.get_by if it doesn't automatically retrieve first element
-    Repo.all(Task) |> Enum.filter(fn x -> is_nil(x.parent_task) end) |> Enum.random()
+    query =
+      from t in Task,
+      where: is_nil(t.parent_task),
+      order_by: fragment("RANDOM()"),
+      limit: 1
+
+    Repo.all(query) |> List.first
   end
 
   def find_easier_task(parent_task) do
