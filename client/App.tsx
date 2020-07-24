@@ -1,25 +1,61 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, SafeAreaView, TouchableOpacity } from "react-native";
+
+import Header from "./components/Header";
+import ActivityCategoryPicker from "./components/ActivityCategoryPicker";
+import ActivityPicker from "./components/ActivityPicker";
+
+import StartView from "./views/StartView";
+
+import { findRandom, findAnother } from "./api/activities";
+
+enum States {
+  START = "START",
+  SELECTING = "SELECTING",
+  ALTERNATIVE = "ALTERNATIVE",
+  FINISHED = "FINISHED",
+}
 
 export default function App() {
-  // NOTE - this is purely to test the first flow. This is a quick, dirty implementation
   const [activity, setActivity] = useState("");
-  const find_random = () =>
-    fetch("http://localhost:4000/api/activities/find_random")
-      .then((res) => res.json())
-      .then(setActivity);
-  const find_another = () =>
-    fetch("http://localhost:4000/api/activities/find_another")
-      .then((res) => res.json())
-      .then(setActivity);
+  const [state, setState] = useState(States.START);
+
+  const getView = () => {
+    switch (state) {
+      case States.START:
+        return <StartView style={styles.middle} />;
+      case States.SELECTING:
+        return (
+          <ActivityPicker
+            activity={activity}
+            tooHardClick={() => {
+              findAnother().then((newActivity) => {
+                setActivity(newActivity);
+              });
+            }}
+          />
+        );
+      default:
+        break;
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Text onPress={find_random}>START</Text>
-      <Text>{activity?.title}</Text>
-      <Text onPress={find_another}>TOO HARD</Text>
+    <SafeAreaView style={styles.container}>
+      <Header title="MakeMe" style={styles.top} />
+      {getView()}
+      <ActivityCategoryPicker
+        style={styles.bottom}
+        getActivity={() => {
+          findRandom().then((newActivity) => {
+            setActivity(newActivity);
+            setState(States.SELECTING);
+          });
+        }}
+      />
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -28,6 +64,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+  },
+  top: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    borderWidth: 2,
+    borderColor: "red",
+  },
+  middle: {
+    flex: 3,
+    borderWidth: 2,
+    borderColor: "blue",
+  },
+  bottom: {
+    flex: 1,
+    borderWidth: 2,
+    borderColor: "green",
   },
 });
