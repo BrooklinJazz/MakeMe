@@ -2,11 +2,12 @@ defmodule Server.Activities do
   @moduledoc """
   The Activities context.
   """
-
   import Ecto.Query, warn: false
   alias Server.Repo
 
   alias Server.Activities.Task
+  # use ExUnit.Case
+  # doctest Activities.Task
 
   @doc """
   Returns the list of tasks.
@@ -100,5 +101,14 @@ defmodule Server.Activities do
   """
   def change_task(%Task{} = task, attrs \\ %{}) do
     Task.changeset(task, attrs)
+  end
+
+  def find_random_task() do
+    # NOTE may be able to use Repo.get_by if it doesn't automatically retrieve first element
+    Repo.all(Task) |> Enum.filter(fn x -> is_nil(x.parent_task) end) |> Enum.random()
+  end
+
+  def find_easier_task(parent_task) do
+    Repo.get_by(Task, parent_task: parent_task)
   end
 end

@@ -14,7 +14,7 @@ defmodule Server.Activities.Task do
   @doc false
   def changeset(task, attrs) do
     task
-    |> cast(attrs, [:title, :description, :type])
+    |> cast(attrs, [:title, :description, :type, :parent_task])
     |> validate_required([:title, :description, :type])
   end
 end

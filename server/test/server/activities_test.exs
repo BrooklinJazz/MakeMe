@@ -16,12 +16,18 @@ defmodule Server.ActivitiesTest do
     task
   end
 
-  # describe "requesting tasks" do
-  #   test "find_task() _ parent_task _ child_task" do
-  #     parent_task = task_fixture()
-  #     assert Activities.find_task() == parent_task
-  #   end
-  # end
+  describe "requesting tasks" do
+    test "find_random_task -> user presses too_hard _ parent_task _ child_task" do
+      parent_task = task_fixture()
+      # TODO figure out how to spread valid_attrs in here
+      {:ok, child_task} = Activities.create_task(%{parent_task: parent_task.id, description: "some description", title: "some title", type: "some type"})
+      assert child_task.parent_task == parent_task.id
+      # find_random_task should only find parent task
+      (1 .. 100) |> Enum.each(fn _ -> assert Activities.find_random_task() == parent_task end)
+      # too_hard should only find child task
+      (1 .. 100) |> Enum.each(fn _ -> assert Activities.find_easier_task(parent_task.id) == child_task end)
+    end
+  end
 
   # default tests provided by mix phx.gen.json
   describe "tasks" do
