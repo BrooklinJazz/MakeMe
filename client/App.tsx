@@ -17,8 +17,22 @@ enum States {
   FINISHED = "FINISHED",
 }
 
+enum Activity {
+  MIND = "mind",
+  HEALTH = "health",
+  CAREER = "career",
+}
+
+interface IActivity {
+  id: string;
+  title: string;
+  description: string;
+  type: Activity;
+  parent_task?: string;
+}
+
 export default function App() {
-  const [activity, setActivity] = useState("");
+  const [activity, setActivity] = useState<IActivity>();
   const [state, setState] = useState(States.START);
 
   const getView = () => {
@@ -30,7 +44,8 @@ export default function App() {
           <ActivityPicker
             activity={activity}
             tooHardClick={() => {
-              findAnother().then((newActivity) => {
+              console.warn(activity)
+              activity && findAnother(activity.id).then((newActivity) => {
                 setActivity(newActivity);
               });
             }}

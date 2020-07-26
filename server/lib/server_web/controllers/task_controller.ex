@@ -40,4 +40,16 @@ defmodule ServerWeb.TaskController do
       send_resp(conn, :no_content, "")
     end
   end
+
+
+  def find_random_task(conn, _params) do
+      task = Activities.find_random_task()
+      # NOTE - how can i do this in a more concise syntax?
+      json(conn, %{title: task.title, description: task.description, type: task.type, parent_task: task.parent_task, id: task.id})
+  end
+
+  def find_easier_task(conn, %{"parent_task" => parent_task}) do
+      task = Activities.find_easier_task(parent_task)
+      json(conn, %{title: task.title, description: task.description, type: task.type, parent_task: task.parent_task})
+  end
 end

@@ -8,9 +8,10 @@ defmodule ServerWeb.Router do
 
   scope "/api", ServerWeb do
     pipe_through :api
-    get "/activities/find_random", ActivitiesController, :find_random
-    get "/activities/find_another", ActivitiesController, :find_another
-    resources "/tasks", TaskController, except: [:new, :edit]
+
+    get "/activities/find_random_task", TaskController, :find_random_task
+    post  "/activities/find_easier_task", TaskController, :find_easier_task
+    resources "/activities", TaskController, except: [:new, :edit]
   end
 
   # Enables LiveDashboard only for development

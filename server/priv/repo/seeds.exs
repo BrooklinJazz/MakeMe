@@ -9,3 +9,7 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+Server.Repo.delete_all(Server.Activities.Task)
+
+parent_task = Server.Repo.insert!(%Server.Activities.Task{title: "Read 5 pages", description: "Reading is good", type: "mind"})
+Server.Repo.insert!(%Server.Activities.Task{title: "Read 1 pages", description: "Reading is ok", type: "mind", parent_task: parent_task.id})
