@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, SafeAreaView, TouchableOpacity } from "react-native";
 
 import Header from "./components/Header";
-import ActivityCategoryPicker from "./components/ActivityCategoryPicker";
+import ActivityCategoryPicker from "./components/ActivityCategoryPicker.tsx";
 import ActivityPicker from "./components/ActivityPicker";
 
 import StartView from "./views/StartView";
