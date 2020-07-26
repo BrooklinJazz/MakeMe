@@ -48,6 +48,11 @@ defmodule ServerWeb.TaskController do
       json(conn, %{title: task.title, description: task.description, type: task.type, parent_task: task.parent_task, id: task.id})
   end
 
+  def find_task_by_type(conn, %{"type" => type}) do
+      task = Activities.find_task_by_type(type)
+      json(conn, %{title: task.title, description: task.description, type: task.type, parent_task: task.parent_task, id: task.id})
+  end
+
   def find_easier_task(conn, %{"parent_task" => parent_task}) do
       task = Activities.find_easier_task(parent_task)
       json(conn, %{title: task.title, description: task.description, type: task.type, parent_task: task.parent_task})

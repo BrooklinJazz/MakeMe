@@ -10,6 +10,7 @@ defmodule ServerWeb.Router do
     pipe_through :api
 
     get "/activities/find_random_task", TaskController, :find_random_task
+    get "/activities/find_task_by_type", TaskController, :find_task_by_type
     post  "/activities/find_easier_task", TaskController, :find_easier_task
     resources "/activities", TaskController, except: [:new, :edit]
   end

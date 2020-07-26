@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, SafeAreaView, TouchableOpacity } from "react-native";
 
 import Header from "./components/Header";
-import ActivityCategoryPicker from "./components/ActivityCategoryPicker.tsx";
+import {ActivityCategoryPicker} from "./components/ActivityCategoryPicker";
 import ActivityPicker from "./components/ActivityPicker";
 
-import StartView from "./views/StartView";
+import {StartView} from "./views/StartView";
 
-import { findRandom, findAnother } from "./api/activities";
+import { findRandom, findAnother, ActivityTypes } from "./api/activities";
 
 enum States {
   START = "START",
@@ -17,17 +17,11 @@ enum States {
   FINISHED = "FINISHED",
 }
 
-enum Activity {
-  MIND = "mind",
-  HEALTH = "health",
-  CAREER = "career",
-}
-
 interface IActivity {
   id: string;
   title: string;
   description: string;
-  type: Activity;
+  type: ActivityTypes;
   parent_task?: string;
 }
 
@@ -62,8 +56,8 @@ export default function App() {
       {getView()}
       <ActivityCategoryPicker
         style={styles.bottom}
-        getActivity={() => {
-          findRandom().then((newActivity) => {
+        getActivity={(type: ActivityTypes) => {
+          findRandom(type).then((newActivity) => {
             setActivity(newActivity);
             setState(States.SELECTING);
           });

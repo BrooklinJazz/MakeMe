@@ -1,16 +1,21 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { ActivityTypes } from "../api/activities";
 
-const ActivityCategoryPicker = ({ getActivity }) => {
+interface IProps {
+  getActivity: (type: ActivityTypes) => void
+}
+
+export const ActivityCategoryPicker = ({getActivity}: IProps) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.category} onPress={getActivity}>
+      <TouchableOpacity style={styles.category} onPress={() => getActivity(ActivityTypes.HEALTH)}>
         <Text style={styles.iconText}>Healthy</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.category} onPress={getActivity}>
+      <TouchableOpacity style={styles.category} onPress={() => getActivity(ActivityTypes.CAREER)}>
         <Text style={styles.iconText}>Wealthy</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.category} onPress={getActivity}>
+      <TouchableOpacity style={styles.category} onPress={() => getActivity(ActivityTypes.MIND)}>
         <Text style={styles.iconText}>Wise</Text>
       </TouchableOpacity>
     </View>
@@ -33,5 +38,3 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
 });
-
-export default ActivityCategoryPicker;

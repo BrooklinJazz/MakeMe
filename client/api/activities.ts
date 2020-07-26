@@ -1,5 +1,11 @@
-export const findRandom = () => {
-  return fetch("http://localhost:4000/api/activities/find_random_task")
+export enum ActivityTypes {
+  MIND = "mind",
+  CAREER = "career",
+  HEALTH = "health"
+}
+
+export const findRandom = (type: ActivityTypes) => {
+  return fetch(`http://localhost:4000/api/activities/find_task_by_type?type=${type}`)
   .then((res) => res.json())
     .then((res) => {
       console.warn(res)
