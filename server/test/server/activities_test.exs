@@ -4,7 +4,7 @@ defmodule Server.ActivitiesTest do
   alias Server.Activities
   alias Server.Activities.Task
 
-  @valid_attrs %{description: "some description", title: "some title", type: "some type"}
+  @valid_attrs %{description: "some description", title: "some title", type: "mind"}
   @update_attrs %{description: "some updated description", title: "some updated title", type: "some updated type"}
   @invalid_attrs %{description: nil, title: nil, type: nil}
 
@@ -16,16 +16,22 @@ defmodule Server.ActivitiesTest do
     task
   end
 
-  describe "requesting tasks" do
-    test "find_random_task -> user presses too_hard _ parent_task _ child_task" do
+  describe "Activities" do
+    test "find_random_task -> find_easier_task _ parent_task _ child_task" do
       parent_task = task_fixture()
-      # TODO figure out how to spread valid_attrs in here
-      {:ok, child_task} = Activities.create_task(%{parent_task: parent_task.id, description: "some description", title: "some title", type: "some type"})
+      child_task = task_fixture(%{parent_task: parent_task.id})
       assert child_task.parent_task == parent_task.id
       # find_random_task should only find parent task
       (1 .. 100) |> Enum.each(fn _ -> assert Activities.find_random_task() == parent_task end)
       # too_hard should only find child task
       (1 .. 100) |> Enum.each(fn _ -> assert Activities.find_easier_task(parent_task.id) == child_task end)
+    end
+
+    test "find_task_by_type(mind) _ 1 mind task _ 1 body task" do
+      mind_task = task_fixture(%{type: "mind"})
+      health_task = task_fixture(%{type: "health"})
+      (1 .. 100) |> Enum.each(fn _ -> assert Activities.find_task_by_type("mind") == mind_task end)
+      (1 .. 100) |> Enum.each(fn _ -> assert Activities.find_task_by_type("health") == health_task end)
     end
   end
 
@@ -45,7 +51,7 @@ defmodule Server.ActivitiesTest do
       assert {:ok, %Task{} = task} = Activities.create_task(@valid_attrs)
       assert task.description == "some description"
       assert task.title == "some title"
-      assert task.type == "some type"
+      assert task.type == "mind"
     end
 
     test "create_task/1 with invalid data returns error changeset" do

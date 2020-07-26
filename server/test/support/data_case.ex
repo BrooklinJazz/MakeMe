@@ -29,7 +29,7 @@ defmodule Server.DataCase do
 
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Server.Repo)
-
+    
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(Server.Repo, {:shared, self()})
     end

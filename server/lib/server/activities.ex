@@ -113,6 +113,16 @@ defmodule Server.Activities do
     Repo.all(query) |> List.first
   end
 
+  def find_task_by_type(type) do
+    query =
+      from t in Task,
+      where: is_nil(t.parent_task) and t.type == ^type,
+      order_by: fragment("RANDOM()"),
+      limit: 1
+
+    Repo.all(query) |> List.first
+  end
+
   def find_easier_task(parent_task) do
     Repo.get_by(Task, parent_task: parent_task)
   end
